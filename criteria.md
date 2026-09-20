@@ -69,10 +69,12 @@ in at least 4 of 5 tries.
        - "No chunk is shorter than 200 characters, since anything below that
           in my corpus turned out to be a heading with no content under it." -->
 
-
+Chunks capture all the thread responses in chunk sizes smaller than 600.
 
 **Why this target:**
-
+Most threads have an average of three responses that are less than 100 characters
+each. Once the text is cleaned up for metadata, such as number of votes and reply number
+all the thread replies should be handled in chunks sized at 600.
 
 
 ---
@@ -86,10 +88,12 @@ in at least 4 of 5 tries.
      handles badly, about source attribution being correct rather than merely
      present — anything, as long as it names a number or an observable
      outcome. -->
-
+Retrieval system returns an answer within 5 seconds.
 
 
 **Why this target:**
+This ensures that the user has a reasonable user experience. A retrieval system
+that is too slow will have the user go to faster option.
 
 
 
