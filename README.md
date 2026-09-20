@@ -27,6 +27,8 @@
 
      Milestone 5. -->
 
+I picked the advice thread corpus for my retrieval system. This corpus answers general questions on how to adjust to campus life. The retrieval breaks apart each thread to each individual response with the original thread question. 
+
 ## Chunking Strategy
 
 **Chunk size:**
@@ -41,6 +43,7 @@
      more than pretending you got it right first time.
 
      Milestone 3. -->
+After analyzing the documents, I decided to break the documents up by individual responses. In theory, each response is appropriate as a standalone chunk. I made sure to append the question being asked to each chunk to maintain overall thread context. Even with the inclusion of the thread question all the reponses where under 260, making 260 a natural threshold with no overlap between responses. The shortest answer is 105 characters while the longest answer is 254 characters.
 
 ## Sample Chunks
 
@@ -53,29 +56,34 @@
 
      Milestone 3. -->
 
-**Chunk 1** — source: `` — produced by: ``
+**Chunk 1** — source: thread_bike_commute.txt `` produced_by='chunker.py::split_documents``
 
 ```
+THREAD: Is a bike worth it for a 20 minute walk commute?\n\nYeah. Cuts an 18 minute walk to about 6. The thing nobody mentions is storage — covered bike parking exists at three buildings and is full by 9am at all three
 ```
 
-**Chunk 2** — source: `` — produced by: ``
+**Chunk 2** — source: thread_clubs.txt `` produced_by='chunker.py::split_documents``
 
 ```
+THREAD: How many clubs is too many?\n\nTwo you actually turn up to beats six you signed up for at the fair.
 ```
 
-**Chunk 3** — source: `` — produced by: ``
+**Chunk 3** — source: thread_commuting.txt `` produced_by='chunker.py::split_documents``
 
 ```
+THREAD: Commuting an hour each way — is it survivable?\n\nYes, but stack your courses. Three long days beats five short ones by a wide margin.
 ```
 
-**Chunk 4** — source: `` — produced by: ``
+**Chunk 4** — source: thread_first_gen.txt `` produced_by='chunker.py::split_documents``
 
 ```
+THREAD: Anything specific for first-generation students?\n\nThe advising office has a specific programme and it is genuinely good, but it is opt-in and badly publicised. Ask for it by name.
 ```
 
-**Chunk 5** — source: `` — produced by: ``
+**Chunk 5** — source: thread_changing_major.txt`` produced_by='chunker.py::split_documents``
 
 ```
+THREAD: How hard is it to change major in second year?\n\nAdministratively trivial — it's a form. The real question is whether the credits you've taken map onto the new requirements.
 ```
 
 ## Sample Answer

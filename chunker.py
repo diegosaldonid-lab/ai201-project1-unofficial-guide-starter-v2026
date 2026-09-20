@@ -22,10 +22,19 @@ to it, write down what you saw, and move on. That's a real observation about
 your pipeline, not giving up.
 """
 
+import re
 from dataclasses import dataclass
 
 import config
 from ingest import Document
+
+# The advice_threads files separate replies with a line like
+#   --- reply 3 (8 votes) ---
+# The numbers change from reply to reply, so match them as digits.
+REPLY_HEADER = re.compile(
+    r"^[ \t]*-{2,}[ \t]*reply[ \t]+\d+[ \t]*\([ \t]*\d+[ \t]*votes?[ \t]*\)[ \t]*-{2,}[ \t]*$",
+    re.IGNORECASE | re.MULTILINE,
+)
 
 
 @dataclass
@@ -80,24 +89,72 @@ def fallback_split(
     return chunks
 
 
+def _windows(text: str) -> list[str]:
+    """Last resort for a piece that is still too long: fixed-size windows."""
+    chunk_size = config.CHUNK_SIZE
+    overlap = config.CHUNK_OVERLAP
+
+    if len(text) <= chunk_size:
+        return [text]
+
+    print(len(text))
+    pieces: list[str] = []
+    start = 0
+    while start < len(text):
+        piece = text[start : start + chunk_size].strip()
+        if piece:
+            pieces.append(piece)
+        start += chunk_size - overlap
+    return pieces
+
+
 def split_documents(documents: list[Document]) -> list[Chunk]:
     """
-    Split documents into chunks. ⚠️ REPLACE THE BODY OF THIS IN MILESTONE 3.
+    Split each thread on its reply markers, one chunk per reply.
 
-    Right now it just calls the fallback. That is the plain, generic behaviour
-    the brief is talking about.
+    The advice_threads documents are short posts with a question on the first
+    line and a handful of answers under it, each introduced by a line like
+    `--- reply 3 (8 votes) ---`. That line is structure, not content: it tells
+    the splitter where one answer ends and the next begins, and it is noise
+    once the answer is on its own. So the marker decides the cut and is then
+    dropped from the text.
 
-    When you write your own strategy, set `produced_by` to
-    "chunker.py::split_documents" so your README's Sample Chunks section names
-    the right function. `app.py chunks` prints that string for you.
+    The thread question stays at the top of every chunk from that thread.
+    A reply on its own ("West lots sell out in about three days in August")
+    does not say what it is answering; with the question above it, the chunk
+    reads as a complete thought and matches a question-shaped query.
 
-    Things worth thinking about before you write any code:
-      - Are your documents short posts or long guides?
-      - Is the useful information in one sentence, or spread over a paragraph?
-      - Would splitting on paragraph breaks keep more thoughts intact than
-        splitting on a character count?
+    A document with no reply markers — anything in campus_life or city_guides —
+    comes through as one chunk, cut into windows only if it runs past
+    config.CHUNK_SIZE.
     """
-    return fallback_split(documents)
+    chunks: list[Chunk] = []
+
+    for doc in documents:
+        sections = [s.strip() for s in REPLY_HEADER.split(doc.text)]
+        sections = [s for s in sections if s]
+
+        if len(sections) > 1:
+            # First section is the thread question; it prefixes every reply.
+            header, replies = sections[0], sections[1:]
+            pieces = [f"{header}\n\n{reply}" for reply in replies]
+        else:
+            pieces = sections
+
+        index = 0
+        for piece in pieces:
+            for text in _windows(piece):
+                chunks.append(
+                    Chunk(
+                        text=text,
+                        source=doc.source,
+                        index=index,
+                        produced_by="chunker.py::split_documents",
+                    )
+                )
+                index += 1
+
+    return chunks
 
 
 def describe(chunks: list[Chunk]) -> str:
