@@ -23,10 +23,10 @@ names a target of "4 of 5", and four of three is not a thing.
 
 QUESTIONS = [
     # {"question": "...", "expects": "..."},
-    {"question": "When do parking spaces on campus fill up by?", "expects": "A specific hour or time of day"},
-    {"question": "How to handle a roommate that doesn't clean their dishes?", "expects": "General communication approach to talking with roommate"},
+    {"question": "How fast do parking permits sell out?", "expects": "Number of days"},
+    {"question": "What are the steps to change roommates?", "expects": "General communication approach to talking with roommate"},
     {"question": "What do meal plans offer on campus?", "expects": "Tier plans"},
-    {"question": "Where can I get help for drafting a resume?", "expects": "Resources career center might have"},
+    {"question": "Where can I get help for creating a resume?", "expects": "Career center"},
     {"question": "How can I be prepared for winter on campus?", "expects": "Layers"},
 ]
 

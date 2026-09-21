@@ -69,12 +69,12 @@ in at least 4 of 5 tries.
        - "No chunk is shorter than 200 characters, since anything below that
           in my corpus turned out to be a heading with no content under it." -->
 
-Chunks capture all the thread responses in chunk sizes smaller than 600.
+Chunks capture all the thread responses in chunk sizes smaller than 260.
 
 **Why this target:**
 Most threads have an average of three responses that are less than 100 characters
 each. Once the text is cleaned up for metadata, such as number of votes and reply number
-all the thread replies should be handled in chunks sized at 600.
+all individual responses are less than 260 characters with no overall needed.
 
 
 ---

@@ -92,13 +92,18 @@ THREAD: How hard is it to change major in second year?\n\nAdministratively trivi
      visible. Milestone 4. -->
 
 **Question:**
+"How fast do parking permits sell out?"
 
 **Answer:**
 
 ```
+West lots sell out in about three days in August, while the East lot never sells out (thread_parking.txt).
+
+Sources retrieved: thread_bike_commute.txt, thread_parking.txt
 ```
 
 **My relevance cutoff:**
+0.5
 
 <!-- The number you set in config.py, and how you got there.
 
@@ -111,7 +116,16 @@ THREAD: How hard is it to change major in second year?\n\nAdministratively trivi
 
 | Question | In corpus? | Best distance |
 |---|---|---|
-|  |  |  |
+|How fast do parking permits sell out?  |yes  |0.275  |
+|What are the steps to change roommates?  |yes  |0.398  |
+|What do meal plans offer on campus?  |yes  |0.399  |
+|Where can I get help for creating a resume?  |no  | 0.685 |
+|How can I be prepared for winter on campus?  |yes  |0.447  |
+|What is the capital of Mongolia?  |no  |0.899  |
+|How do I change the oil in a diesel engine?  |no  |0.905  |
+|Who won the 1994 World Cup?  |no  |0.898  |
+|What is the recommended dosage of ibuprofen for a headache?  |no  |0.819  |
+|How do I write a for loop in Rust?  |no  |0.861  |
 
 ## How I Used AI
 
@@ -125,8 +139,11 @@ THREAD: How hard is it to change major in second year?\n\nAdministratively trivi
      Milestone 5. -->
 
 **1.**
+I asked Claude to evaluate the success criteria that I initially created. It gave me feedback that
+my initial success criteria were not actually tangible and to target specific metrics that could be proven to succeed or fail based on a number.
 
 **2.**
+I asked Claude to rework the fallback chunker function to take out the number reply and number of votes for each response. It suggested to keep the thread question into each separated chunk which I agreed with since it would maintain the intial question context.
 
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never
